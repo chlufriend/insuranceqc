@@ -1,0 +1,1 @@
+Lu Chen Website bundle\n\nReplace images/profile.jpg with your real photo.\nOpen index.html to view the site.\nUse admin.html to add bilingual articles (stored in browser localStorage).\nUpload entire folder to Netlify or any static host.

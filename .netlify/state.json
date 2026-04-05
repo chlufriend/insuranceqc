@@ -1,0 +1,21 @@
+{
+	"siteId": "eb233045-bde9-47a3-8c6d-c6cf58453712",
+	"geolocation": {
+		"data": {
+			"city": "Longueuil",
+			"country": {
+				"code": "CA",
+				"name": "Canada"
+			},
+			"subdivision": {
+				"code": "QC",
+				"name": "Quebec"
+			},
+			"timezone": "America/Toronto",
+			"latitude": 45.5191,
+			"longitude": -73.462,
+			"postalCode": "J4L"
+		},
+		"timestamp": 1756517163865
+	}
+}

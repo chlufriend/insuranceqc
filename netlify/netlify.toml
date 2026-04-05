@@ -1,0 +1,29 @@
+plugins = []
+functionsDirectory = "C:\\Users\\Dell\\Downloads\\lu_chen_website\\netlify\\functions"
+functionsDirectoryOrigin = "config-v1"
+headers = []
+redirects = []
+
+[functions]
+
+[functions."*"]
+
+[build]
+publish = "C:\\Users\\Dell\\Downloads\\lu_chen_website"
+publishOrigin = "config"
+base = "C:\\Users\\Dell\\Downloads\\lu_chen_website"
+functions = "C:\\Users\\Dell\\Downloads\\lu_chen_website\\netlify\\functions"
+
+[build.environment]
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]

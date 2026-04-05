@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Manage Articles - Lu Chen</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Manage Articles (EN / FR / ZH)</h1>
+    <p>Articles are stored in your browser's localStorage. Use this page to add bilingual content and Chinese translations.</p>
+    <div class="admin-form card">
+      <label>Title (FR)</label><input id="t-fr">
+      <label>Title (EN)</label><input id="t-en">
+      <label>Title (ZH)</label><input id="t-zh">
+      <label>Content (FR)</label><textarea id="c-fr" rows="6"></textarea>
+      <label>Content (EN)</label><textarea id="c-en" rows="6"></textarea>
+      <label>Content (ZH)</label><textarea id="c-zh" rows="6"></textarea>
+      <div style="text-align:right"><button class="btn primary" id="save-btn">Save Article</button></div>
+    </div>
+    <h2>Existing Articles</h2>
+    <div id="list"></div>
+    <p>Tip: After saving articles here, refresh the main page to see them (or open it again).</p>
+    <div style="margin-top:20px"><a href="index.html" class="btn">Open Main Site</a></div>
+  </div>
+  <script>
+  // simple localStorage article manager
+  const LS = 'lu_articles_v1';
+  function load(){ return JSON.parse(localStorage.getItem(LS)||'[]'); }
+  function save(arr){ localStorage.setItem(LS, JSON.stringify(arr)); }
+  function renderList(){
+    const list = load();
+    const out = document.getElementById('list');
+    out.innerHTML = '';
+    list.forEach((a, idx)=>{
+      const el = document.createElement('div');
+      el.className='card';
+      el.innerHTML = '<h3>'+ (a.title_fr||'NO TITLE') + '</h3>' +
+                     '<p><strong>EN:</strong> '+(a.title_en||'')+'</p>' +
+                     '<p><strong>ZH:</strong> '+(a.title_zh||'')+'</p>' +
+                     '<div style="text-align:right"><button onclick="edit('+idx+')" class="btn">Edit</button> <button onclick="del('+idx+')" class="btn outline">Delete</button></div>';
+      out.appendChild(el);
+    });
+  }
+  function del(i){ const a = load(); a.splice(i,1); save(a); renderList(); }
+  function edit(i){
+    const a = load()[i];
+    document.getElementById('t-fr').value = a.title_fr||'';
+    document.getElementById('t-en').value = a.title_en||'';
+    document.getElementById('t-zh').value = a.title_zh||'';
+    document.getElementById('c-fr').value = a.content_fr||'';
+    document.getElementById('c-en').value = a.content_en||'';
+    document.getElementById('c-zh').value = a.content_zh||'';
+    // store index
+    document.getElementById('save-btn').dataset.edit = i;
+  }
+  document.getElementById('save-btn').addEventListener('click', ()=>{
+    const newA = {
+      title_fr: document.getElementById('t-fr').value,
+      title_en: document.getElementById('t-en').value,
+      title_zh: document.getElementById('t-zh').value,
+      content_fr: document.getElementById('c-fr').value,
+      content_en: document.getElementById('c-en').value,
+      content_zh: document.getElementById('c-zh').value,
+      createdAt: new Date().toISOString()
+    };
+    const arr = load();
+    const edit = document.getElementById('save-btn').dataset.edit;
+    if(edit){
+      arr[edit]=newA;
+      delete document.getElementById('save-btn').dataset.edit;
+    } else {
+      arr.unshift(newA);
+    }
+    save(arr);
+    document.getElementById('t-fr').value='';document.getElementById('t-en').value='';document.getElementById('t-zh').value='';
+    document.getElementById('c-fr').value='';document.getElementById('c-en').value='';document.getElementById('c-zh').value='';
+    renderList();
+  });
+  renderList();
+  </script>
+</body>
+</html>
