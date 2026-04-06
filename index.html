@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lu Chen | Licensed Insurance Broker Quebec</title>
+    <title>Lu Chen | Courtier d'Assurance Agréé Québec</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
@@ -31,6 +32,10 @@
             line-height: 1.6;
             color: var(--text-dark);
             scroll-behavior: smooth;
+        }
+
+        body.chinese {
+            font-family: 'Noto Sans SC', sans-serif;
         }
 
         /* Utility Classes */
@@ -70,6 +75,44 @@
         .btn-outline:hover {
             background-color: var(--accent-blue);
             color: var(--white);
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            background: var(--accent-blue);
+            color: var(--white);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .lang-btn.active {
+            background: var(--primary-blue);
+        }
+
+        .lang-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Hide/Show based on language */
+        .lang-content {
+            display: none;
+        }
+
+        .lang-content.active {
+            display: block;
         }
 
         /* Header */
@@ -202,6 +245,44 @@
             font-size: 0.95rem;
         }
 
+        /* Travel Products Section */
+        .travel-products {
+            padding: 40px 0;
+            background-color: var(--white);
+            margin-top: -30px;
+        }
+
+        .travel-products h3 {
+            text-align: center;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .travel-links {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .travel-links li a {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: var(--white);
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .travel-links li a:hover {
+            background-color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+
         /* About Section */
         .about {
             padding: 100px 0;
@@ -259,6 +340,17 @@
         .value-item i {
             color: var(--accent-blue);
             margin-right: 8px;
+        }
+
+        .profile-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .profile-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 20px 20px 0 var(--light-blue);
         }
 
         /* Contact Section */
@@ -320,7 +412,7 @@
             font-weight: 600;
         }
 
-        .form-group input, .form-group textarea {
+        .form-group input, .form-group textarea, .form-group select {
             width: 100%;
             padding: 12px;
             border: 1px solid #ddd;
@@ -356,189 +448,617 @@
             .nav-links { display: none; }
             .contact-container { grid-template-columns: 1fr; gap: 40px; }
             .hero h1 { font-size: 2.2rem; }
+            .language-switcher { top: 90px; }
         }
 
         @media (max-width: 768px) {
             .values-grid { grid-template-columns: 1fr; }
             .about-content { flex-direction: column; text-align: center; }
             .about-text h2 { font-size: 2rem; }
+            .travel-links { flex-direction: column; }
+            .language-switcher { flex-direction: column; gap: 5px; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <nav class="container">
-            <a href="#" class="logo">Lu <span>Chen</span></a>
-            <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="header-cta">
-                <a href="tel:4389896332" class="btn btn-outline">
-                    <i class="fas fa-phone"></i> 438-989-6332
-                </a>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="lang-btn" onclick="switchLanguage('en')">EN</button>
+        <button class="lang-btn active" onclick="switchLanguage('fr')">FR</button>
+        <button class="lang-btn" onclick="switchLanguage('zh')">中文</button>
+    </div>
+
+    <!-- FRENCH VERSION (DEFAULT) -->
+    <div class="lang-content active" id="lang-fr">
+        <header>
+            <nav class="container">
+                <a href="#" class="logo">Lu <span>Chen</span></a>
+                <ul class="nav-links">
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#about">À propos</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="header-cta">
+                    <a href="tel:4389896332" class="btn btn-outline">
+                        <i class="fas fa-phone"></i> 438-989-6332
+                    </a>
+                </div>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <div class="container">
+                <h1>Solutions d'assurance personnalisées d'un courtier à l'écoute</h1>
+                <p>Assurance automobile, habitation, vie et voyage abordables au Québec</p>
+                <a href="#contact" class="btn btn-primary" style="font-size: 1.1rem; padding: 15px 40px;">OBTENIR UN DEVIS GRATUIT</a>
             </div>
-        </nav>
-    </header>
+        </section>
 
-    <section class="hero">
-        <div class="container">
-            <h1>Personalized Insurance Solutions from a Broker Who Listens</h1>
-            <p>Affordable Auto, Home, Life & Travel Insurance in Quebec</p>
-            <a href="#contact" class="btn btn-primary" style="font-size: 1.1rem; padding: 15px 40px;">GET FREE QUOTE</a>
-        </div>
-    </section>
-
-    <section id="services" class="services">
-        <div class="container">
-            <div class="section-title">
-                <h2>Our Insurance Services</h2>
-                <p>Comprehensive coverage tailored to your specific needs.</p>
-            </div>
-            <div class="services-grid">
-                <!-- Auto Card -->
-                <div class="service-card">
-                    <i class="fas fa-car"></i>
-                    <h3>Auto Insurance</h3>
-                    <p>Protection on the road with competitive rates and coverage tailored to your driving habits.</p>
-                    <a href="#contact" class="btn btn-outline">Learn More</a>
+        <section id="services" class="services">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Nos Services d'Assurance</h2>
+                    <p>Une couverture complète adaptée à vos besoins spécifiques.</p>
                 </div>
-                <!-- Home Card -->
-                <div class="service-card">
-                    <i class="fas fa-home"></i>
-                    <h3>Home Insurance</h3>
-                    <p>Secure your most valuable asset against theft, fire, and water damage with our robust plans.</p>
-                    <a href="#contact" class="btn btn-outline">Learn More</a>
-                </div>
-                <!-- Life Card -->
-                <div class="service-card">
-                    <i class="fas fa-heart"></i>
-                    <h3>Life Insurance</h3>
-                    <p>Ensuring financial peace of mind for your loved ones with customized life and health plans.</p>
-                    <a href="#contact" class="btn btn-outline">Learn More</a>
-                </div>
-                <!-- Traveller Card -->
-                <div class="service-card">
-                    <i class="fas fa-plane"></i>
-                    <h3>Travel Insurance</h3>
-                    <p>Worry-free adventures with comprehensive medical and trip cancellation coverage.</p>
-                    <a href="#contact" class="btn btn-outline">Learn More</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="about">
-        <div class="container">
-            <div class="about-content">
-                <div class="about-text">
-                    <span class="about-subtitle">Your Trusted Quebec Partner</span>
-                    <h2>Lu Chen</h2>
-                    <p style="font-weight: 600; color: var(--accent-blue); margin-bottom: 15px;">Professional Insurance Broker (J.G. Fortin)</p>
-                    
-                    <p>With 3 years of experience as a licensed insurance broker, Lu Chen specializes in finding personalized insurance solutions for Quebec families and individuals. Working within the J.G. Fortin network, I have access to a wide range of insurers to find you the best price.</p>
-                    
-                    <div class="certifications">
-                        <span class="cert-tag">Conseiller en sécurité financière</span>
-                        <span class="cert-tag">Personal Line Damage Insurance Broker (AMF)</span>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <i class="fas fa-car"></i>
+                        <h3>Assurance Automobile</h3>
+                        <p>Protection sur la route avec des tarifs compétitifs et une couverture adaptée à vos habitudes de conduite.</p>
+                        <a href="#contact" class="btn btn-outline">En savoir plus</a>
                     </div>
-
-                    <h3>My Core Values</h3>
-                    <div class="values-grid">
-                        <div class="value-item"><i class="fas fa-check-circle"></i> Patient</div>
-                        <div class="value-item"><i class="fas fa-check-circle"></i> Detail-Oriented</div>
-                        <div class="value-item"><i class="fas fa-check-circle"></i> Client-First Approach</div>
+                    <div class="service-card">
+                        <i class="fas fa-home"></i>
+                        <h3>Assurance Habitation</h3>
+                        <p>Protégez votre bien le plus précieux contre le vol, l'incendie et les dégâts d'eau avec nos plans robustes.</p>
+                        <a href="#contact" class="btn btn-outline">En savoir plus</a>
                     </div>
-                </div>
-                <!-- Optional: Image placeholder if you want to add a photo later -->
-                <div style="flex: 1; text-align: center;">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Professional Broker" style="max-width: 100%; border-radius: 10px; box-shadow: 20px 20px 0 var(--light-blue);">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="contact">
-        <div class="container">
-            <div class="contact-container">
-                <div class="contact-info">
-                    <h2>Get A Free Quote</h2>
-                    <p style="margin-bottom: 40px; opacity: 0.9;">Contact me today for a no-obligation assessment of your current insurance needs.</p>
-                    
-                    <div class="contact-method">
-                        <i class="fas fa-phone"></i>
-                        <div>
-                            <p style="font-size: 0.9rem; opacity: 0.8;">Call or Text</p>
-                            <a href="tel:4389896332">438-989-6332</a>
-                        </div>
+                    <div class="service-card">
+                        <i class="fas fa-heart"></i>
+                        <h3>Assurance Vie</h3>
+                        <p>Assurer la tranquillité financière de vos proches avec des plans d'assurance-vie et santé personnalisés.</p>
+                        <a href="#contact" class="btn btn-outline">En savoir plus</a>
                     </div>
-
-                    <div class="contact-method">
-                        <i class="fas fa-envelope"></i>
-                        <div>
-                            <p style="font-size: 0.9rem; opacity: 0.8;">Email Me</p>
-                            <a href="mailto:lu.chen@jgfortin.com">lu.chen@jgfortin.com</a>
-                        </div>
-                    </div>
-
-                    <div class="contact-method">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <div>
-                            <p style="font-size: 0.9rem; opacity: 0.8;">Location</p>
-                            <p>Serving all of Quebec</p>
-                        </div>
+                    <div class="service-card">
+                        <i class="fas fa-plane"></i>
+                        <h3>Assurance Voyage</h3>
+                        <p>Voyagez sans soucis avec une couverture médicale complète et une protection contre l'annulation de voyage.</p>
+                        <a href="#contact" class="btn btn-outline">En savoir plus</a>
                     </div>
                 </div>
 
-                <div class="contact-form">
-                    <form>
-                        <div class="form-group">
-                            <label>Full Name</label>
-                            <input type="text" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Email Address</label>
-                            <input type="email" placeholder="email@example.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Phone Number</label>
-                            <input type="tel" placeholder="438-000-0000">
-                        </div>
-                        <div class="form-group">
-                            <label>Type of Insurance</label>
-                            <select style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px;">
-                                <option>Auto Insurance</option>
-                                <option>Home Insurance</option>
-                                <option>Life Insurance</option>
-                                <option>Travel Insurance</option>
-                                <option>Multiple / Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Message</label>
-                            <textarea rows="4" placeholder="How can I help you?"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">GET FREE QUOTE</button>
-                    </form>
+                <div class="travel-products">
+                    <h3>Nos Partenaires d'Assurance Voyage Recommandés</h3>
+                    <ul class="travel-links">
+                        <li>
+                            <a href="https://shop.tugo.com/store/IAJ31114" target="_blank">
+                                Obtenez votre assurance voyage Tugo
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://agent.jfgroup.ca/Agent/5591" target="_blank">
+                                Obtenez votre assurance voyage JF
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer>
-        <div class="container">
-            <p style="font-weight: 700; font-size: 1.2rem;">Lu Chen | Insurance Broker</p>
-            <p style="opacity: 0.7; margin-top: 5px;">In association with J.G. Fortin</p>
-            <div class="social-links">
-                <a href="#"><i class="fab fa-linkedin"></i></a>
-                <a href="#"><i class="fab fa-facebook"></i></a>
+        <section id="about" class="about">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <span class="about-subtitle">Votre Partenaire de Confiance au Québec</span>
+                        <h2>Lu Chen</h2>
+                        <p style="font-weight: 600; color: var(--accent-blue); margin-bottom: 15px;">Courtier d'Assurance Professionnel (J. Gérard Fortin & Associés)</p>
+                        
+                        <p>Avec 3 ans d'expérience en tant que courtier d'assurance agréé, Lu Chen se spécialise dans les solutions d'assurance personnalisées pour les familles et les particuliers du Québec. Travaillant au sein du réseau J. Gérard Fortin & Associés, j'ai accès à un large éventail d'assureurs pour vous trouver le meilleur prix.</p>
+                        
+                        <div class="certifications">
+                            <span class="cert-tag">✓ Conseiller en sécurité financière (AMF)</span>
+                            <span class="cert-tag">✓ Courtier en assurance dommages aux biens personnels (AMF)</span>
+                        </div>
+
+                        <h3>Mes Valeurs Fondamentales</h3>
+                        <div class="values-grid">
+                            <div class="value-item"><i class="fas fa-check-circle"></i> Patient</div>
+                            <div class="value-item"><i class="fas fa-check-circle"></i> Attentif aux détails</div>
+                            <div class="value-item"><i class="fas fa-check-circle"></i> Approche centrée sur le client</div>
+                        </div>
+                    </div>
+                    <div class="profile-image">
+                        <img src="images/profile.jpg" alt="Lu Chen - Courtier d'Assurance Professionnel">
+                    </div>
+                </div>
             </div>
-            <p style="font-size: 0.85rem; opacity: 0.6;">&copy; 2023 Lu Chen. All Rights Reserved. Licensed with Autorité des marchés financiers (AMF).</p>
-        </div>
-    </footer>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="container">
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <h2>Obtenir un Devis Gratuit</h2>
+                        <p style="margin-bottom: 40px; opacity: 0.9;">Contactez-moi dès aujourd'hui pour une évaluation sans engagement de vos besoins en assurance.</p>
+                        
+                        <div class="contact-method">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <p style="font-size: 0.9rem; opacity: 0.8;">Appelez ou texte</p>
+                                <a href="tel:4389896332">438-989-6332</a>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <p style="font-size: 0.9rem; opacity: 0.8;">Envoyez-moi un email</p>
+                                <a href="mailto:lu.chen@jgfortin.com">lu.chen@jgfortin.com</a>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <p style="font-size: 0.9rem; opacity: 0.8;">Localisation</p>
+                                <p>Service partout au Québec</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-form">
+                        <form netlify>
+                            <div class="form-group">
+                                <label>Nom complet</label>
+                                <input type="text" name="name" placeholder="Votre nom" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Adresse email</label>
+                                <input type="email" name="email" placeholder="email@example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Numéro de téléphone</label>
+                                <input type="tel" name="phone" placeholder="438-000-0000">
+                            </div>
+                            <div class="form-group">
+                                <label>Type d'assurance</label>
+                                <select name="insurance_type">
+                                    <option>Assurance Automobile</option>
+                                    <option>Assurance Habitation</option>
+                                    <option>Assurance Vie</option>
+                                    <option>Assurance Voyage</option>
+                                    <option>Plusieurs / Autre</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Message</label>
+                                <textarea name="message" rows="4" placeholder="Comment puis-je vous aider?"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">OBTENIR UN DEVIS GRATUIT</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <p style="font-weight: 700; font-size: 1.2rem;">Lu Chen | Courtier d'Assurance</p>
+                <p style="opacity: 0.7; margin-top: 5px;">En association avec J. Gérard Fortin & Associés</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                </div>
+                <p style="font-size: 0.85rem; opacity: 0.6;">&copy; 2026 Lu Chen. Tous droits réservés. Agréé par l'Autorité des marchés financiers (AMF).</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ENGLISH VERSION -->
+    <div class="lang-content" id="lang-en">
+        <header>
+            <nav class="container">
+                <a href="#" class="logo">Lu <span>Chen</span></a>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="header-cta">
+                    <a href="tel:4389896332" class="btn btn-outline">
+                        <i class="fas fa-phone"></i> 438-989-6332
+                    </a>
+                </div>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <div class="container">
+                <h1>Personalized Insurance Solutions from a Broker Who Listens</h1>
+                <p>Affordable Auto, Home, Life & Travel Insurance in Quebec</p>
+                <a href="#contact" class="btn btn-primary" style="font-size: 1.1rem; padding: 15px 40px;">GET FREE QUOTE</a>
+            </div>
+        </section>
+
+        <section id="services" class="services">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Our Insurance Services</h2>
+                    <p>Comprehensive coverage tailored to your specific needs.</p>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <i class="fas fa-car"></i>
+                        <h3>Auto Insurance</h3>
+                        <p>Protection on the road with competitive rates and coverage tailored to your driving habits.</p>
+                        <a href="#contact" class="btn btn-outline">Learn More</a>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-home"></i>
+                        <h3>Home Insurance</h3>
+                        <p>Secure your most valuable asset against theft, fire, and water damage with our robust plans.</p>
+                        <a href="#contact" class="btn btn-outline">Learn More</a>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-heart"></i>
+                        <h3>Life Insurance</h3>
+                        <p>Ensuring financial peace of mind for your loved ones with customized life and health plans.</p>
+                        <a href="#contact" class="btn btn-outline">Learn More</a>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-plane"></i>
+                        <h3>Travel Insurance</h3>
+                        <p>Worry-free adventures with comprehensive medical and trip cancellation coverage.</p>
+                        <a href="#contact" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="travel-products">
+                    <h3>Our Recommended Travel Insurance Partners</h3>
+                    <ul class="travel-links">
+                        <li>
+                            <a href="https://shop.tugo.com/store/IAJ31114" target="_blank">
+                                Get your Tugo Travel Insurance
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://agent.jfgroup.ca/Agent/5591" target="_blank">
+                                Get your JF Travel Insurance
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <span class="about-subtitle">Your Trusted Quebec Partner</span>
+                        <h2>Lu Chen</h2>
+                        <p style="font-weight: 600; color: var(--accent-blue); margin-bottom: 15px;">Professional Insurance Broker (J. Gérard Fortin & Associates)</p>
+                        
+                        <p>With 3 years of experience as a licensed insurance broker, Lu Chen specializes in finding personalized insurance solutions for Quebec families and individuals. Working within the J. Gérard Fortin & Associates network, I have access to a wide range of insurers to find you the best price.</p>
+                        
+                        <div class="certifications">
+                            <span class="cert-tag">✓ Financial Security Advisor (AMF)</span>
+                            <span class="cert-tag">✓ Personal Line Damage Insurance Broker (AMF)</span>
+                        </div>
+
+                        <h3>My Core Values</h3>
+                        <div class="values-grid">
+                            <div class="value-item"><i class="fas fa-check-circle"></i> Patient</div>
+                            <div class="value-item"><i class="fas fa-check-circle"></i> Detail-Oriented</div>
+                            <div class="value-item"><i class="fas fa-check-circle"></i> Client-First Approach</div>
+                        </div>
+                    </div>
+                    <div class="profile-image">
+                        <img src="images/profile.jpg" alt="Lu Chen - Professional Insurance Broker">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="container">
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <h2>Get A Free Quote</h2>
+                        <p style="margin-bottom: 40px; opacity: 0.9;">Contact me today for a no-obligation assessment of your current insurance needs.</p>
+                        
+                        <div class="contact-method">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <p style="font-size: 0.9rem; opacity: 0.8;">Call or Text</p>
+                                <a href="tel:4389896332">438-989-6332</a>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <p style="font-size: 0.9rem; opacity: 0.8;">Email Me</p>
+                                <a href="mailto:lu.chen@jgfortin.com">lu.chen@jgfortin.com</a>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <p style="font-size: 0.9rem; opacity: 0.8;">Location</p>
+                                <p>Serving all of Quebec</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-form">
+                        <form netlify>
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" name="name" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address</label>
+                                <input type="email" name="email" placeholder="email@example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="tel" name="phone" placeholder="438-000-0000">
+                            </div>
+                            <div class="form-group">
+                                <label>Type of Insurance</label>
+                                <select name="insurance_type">
+                                    <option>Auto Insurance</option>
+                                    <option>Home Insurance</option>
+                                    <option>Life Insurance</option>
+                                    <option>Travel Insurance</option>
+                                    <option>Multiple / Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Message</label>
+                                <textarea name="message" rows="4" placeholder="How can I help you?"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">GET FREE QUOTE</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <p style="font-weight: 700; font-size: 1.2rem;">Lu Chen | Insurance Broker</p>
+                <p style="opacity: 0.7; margin-top: 5px;">In association with J. Gérard Fortin & Associates</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                </div>
+                <p style="font-size: 0.85rem; opacity: 0.6;">&copy; 2026 Lu Chen. All Rights Reserved. Licensed with Autorité des marchés financiers (AMF).</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- CHINESE VERSION -->
+    <div class="lang-content" id="lang-zh">
+        <header>
+            <nav class="container">
+                <a href="#" class="logo">Lu <span>Chen</span></a>
+                <ul class="nav-links">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#services">服务</a></li>
+                    <li><a href="#about">关于</a></li>
+                    <li><a href="#contact">联系</a></li>
+                </ul>
+                <div class="header-cta">
+                    <a href="tel:4389896332" class="btn btn-outline">
+                        <i class="fas fa-phone"></i> 438-989-6332
+                    </a>
+                </div>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <div class="container">
+                <h1>专业保险经纪人的个性化保险解决方案</h1>
+                <p>魁北克省价格实惠的汽车、住宅、人寿和旅游保险</p>
+                <a href="#contact" class="btn btn-primary" style="font-size: 1.1rem; padding: 15px 40px;">获取免费报价</a>
+            </div>
+        </section>
+
+        <section id="services" class="services">
+            <div class="container">
+                <div class="section-title">
+                    <h2>我们的保险服务</h2>
+                    <p>根据您的特定需求提供全面覆盖。</p>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <i class="fas fa-car"></i>
+                        <h3>汽车保险</h3>
+                        <p>道路保护，竞争性费率和根据您的驾驶习惯定制的保险。</p>
+                        <a href="#contact" class="btn btn-outline">了解更多</a>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-home"></i>
+                        <h3>住宅保险</h3>
+                        <p>通过我们强大的计划保护您最宝贵的资产免遭盗窃、火灾和水损。</p>
+                        <a href="#contact" class="btn btn-outline">了解更多</a>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-heart"></i>
+                        <h3>人寿保险</h3>
+                        <p>为您的亲人提供定制的人寿和健康计划，确保财务安心。</p>
+                        <a href="#contact" class="btn btn-outline">了解更多</a>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-plane"></i>
+                        <h3>旅游保险</h3>
+                        <p>通过全面的医疗和行程取消保险，无忧无虑地冒险。</p>
+                        <a href="#contact" class="btn btn-outline">了解更多</a>
+                    </div>
+                </div>
+
+                <div class="travel-products">
+                    <h3>我们推荐的旅游保险合作伙伴</h3>
+                    <ul class="travel-links">
+                        <li>
+                            <a href="https://shop.tugo.com/store/IAJ31114" target="_blank">
+                                获取您的Tugo旅游保险
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://agent.jfgroup.ca/Agent/5591" target="_blank">
+                                获取您的JF旅游保险
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <span class="about-subtitle">您在魁北克的值得信赖的合作伙伴</span>
+                        <h2>Lu Chen</h2>
+                        <p style="font-weight: 600; color: var(--accent-blue); margin-bottom: 15px;">专业保险经纪人(J. Gérard Fortin & 合作伙伴)</p>
+                        
+                        <p>作为一名拥有3年经验的持证保险经纪人，Lu Chen专业为魁北克家庭和个人寻找个性化的保险解决方案。在J. Gérard Fortin & 合作伙伴网络内工作，我可以从众多保险公司中为您找到最佳价格。</p>
+                        
+                        <div class="certifications">
+                            <span class="cert-tag">✓ 金融安全顾问 (AMF)</span>
+                            <span class="cert-tag">✓ 个人财产保险经纪人 (AMF)</span>
+                        </div>
+
+                        <h3>我的核心价值观</h3>
+                        <div class="values-grid">
+                            <div class="value-item"><i class="fas fa-check-circle"></i> 耐心</div>
+                            <div class="value-item"><i class="fas fa-check-circle"></i> 细心</div>
+                            <div class="value-item"><i class="fas fa-check-circle"></i> 以客户为中心</div>
+                        </div>
+                    </div>
+                    <div class="profile-image">
+                        <img src="images/profile.jpg" alt="Lu Chen - 专业保险经纪人">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="container">
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <h2>获取免费报价</h2>
+                        <p style="margin-bottom: 40px; opacity: 0.9;">今天联系我，了解您当前的保险需求，无任何义务。</p>
+                        
+                        <div class="contact-method">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <p style="font-size: 0.9rem; opacity: 0.8;">致电或发短信</p>
+                                <a href="tel:4389896332">438-989-6332</a>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <p style="font-size: 0.9rem; opacity: 0.8;">给我发邮件</p>
+                                <a href="mailto:lu.chen@jgfortin.com">lu.chen@jgfortin.com</a>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <p style="font-size: 0.9rem; opacity: 0.8;">服务地点</p>
+                                <p>服务遍及魁北克省</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-form">
+                        <form netlify>
+                            <div class="form-group">
+                                <label>全名</label>
+                                <input type="text" name="name" placeholder="您的名字" required>
+                            </div>
+                            <div class="form-group">
+                                <label>电子邮件地址</label>
+                                <input type="email" name="email" placeholder="email@example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label>电话号码</label>
+                                <input type="tel" name="phone" placeholder="438-000-0000">
+                            </div>
+                            <div class="form-group">
+                                <label>保险类型</label>
+                                <select name="insurance_type">
+                                    <option>汽车保险</option>
+                                    <option>住宅保险</option>
+                                    <option>人寿保险</option>
+                                    <option>旅游保险</option>
+                                    <option>多种/其他</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>信息</label>
+                                <textarea name="message" rows="4" placeholder="我如何能帮助您?"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">获取免费报价</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <p style="font-weight: 700; font-size: 1.2rem;">Lu Chen | 保险经纪人</p>
+                <p style="opacity: 0.7; margin-top: 5px;">与J. Gérard Fortin & 合作伙伴合作</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                </div>
+                <p style="font-size: 0.85rem; opacity: 0.6;">&copy; 2026 Lu Chen。版权所有。由金融市场监管局 (AMF) 授权。</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function switchLanguage(lang) {
+            // Hide all language versions
+            document.getElementById('lang-en').classList.remove('active');
+            document.getElementById('lang-fr').classList.remove('active');
+            document.getElementById('lang-zh').classList.remove('active');
+
+            // Remove active class from all buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected language
+            document.getElementById('lang-' + lang).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+
+            // Change body font for Chinese
+            if (lang === 'zh') {
+                document.body.classList.add('chinese');
+            } else {
+                document.body.classList.remove('chinese');
+            }
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+    </script>
 
 </body>
 </html>
